@@ -17,6 +17,7 @@
         android:layout_width="fill_parent"
         android:layout_height="48dp">
         <RadioButton
+            android:checked="true"
             android:layout_weight="1"
             android:drawableTop="@drawable/hot_selector"
             android:text="@null"
