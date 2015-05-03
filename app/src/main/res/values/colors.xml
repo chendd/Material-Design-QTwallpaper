@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="dark_pink">#FF647F</color>
-    <color name="light_pink">#FFAFBD</color>
     <color name="common_white">#FFFFFF</color>
     <color name="common_black">#000000</color>
+    <color name="top_blue">#64CED0</color>
+    <color name="bottom_shadow">#88EEEEEE</color>
 
 </resources>

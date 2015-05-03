@@ -1,12 +1,41 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:background="@color/common_white"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_white">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-</RelativeLayout>
+    <FrameLayout
+        android:background="@color/bottom_shadow"
+        android:id="@+id/content"
+        android:layout_weight="1"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"/>
+    <RadioGroup
+        android:id="@+id/tab_group"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp">
+        <RadioButton
+            android:layout_weight="1"
+            android:drawableTop="@drawable/hot_selector"
+            android:text="@null"
+            android:button="@null"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent" />
+        <RadioButton
+            android:layout_weight="1"
+            android:drawableTop="@drawable/category_selector"
+            android:text="@null"
+            android:button="@null"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent" />
+        <RadioButton
+            android:layout_weight="1"
+            android:drawableTop="@drawable/personal_selector"
+            android:text="@null"
+            android:button="@null"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent" />
+    </RadioGroup>
+</LinearLayout>

@@ -1,7 +1,21 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="@style/Theme.AppCompat">
+    <style name="AppTheme" parent="">
     </style>
+
+
+    <style name="MainActivityTheme" parent="AppTheme">
+    </style>
+
+    <!--Fragment 主题-->
+    <style name="FragmentTheme" parent="Theme.AppCompat">
+        <item name="android:windowBackground">@color/common_white</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
+
+    <!--ActionBar字体主题-->
 
 </resources>
