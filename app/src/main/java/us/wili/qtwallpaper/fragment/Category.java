@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import us.wili.qtwallpaper.R;
 import us.wili.qtwallpaper.utils.ColorUtils;
@@ -16,14 +17,21 @@ import us.wili.qtwallpaper.utils.ColorUtils;
  */
 public class Category extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
     private SwipeRefreshLayout refreshLayout;
+    private ListView categoryList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_category,container,false);
+        return inflater.inflate(R.layout.fragment_category,container,false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
-        refreshLayout.setOnRefreshListener(this);
+        categoryList = (ListView) view.findViewById(R.id.list_view);
+
         ColorUtils.setRefreshLayoutColor(refreshLayout, this.getActivity());
-        return view;
+        refreshLayout.setOnRefreshListener(this);
     }
 
     @Override
