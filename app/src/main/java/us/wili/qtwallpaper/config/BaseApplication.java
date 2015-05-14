@@ -1,8 +1,10 @@
 package us.wili.qtwallpaper.config;
 
 import android.app.Application;
+import android.util.DisplayMetrics;
 
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
@@ -21,6 +23,10 @@ public class BaseApplication extends Application{
         new FileUtils(this);
 
         initImageLoaderConfig();
+
+        DisplayMetrics dm = this.getResources().getDisplayMetrics();
+        GlobalConfig.screenWidth = dm.widthPixels;
+        GlobalConfig.screenHeight = dm.heightPixels;
     }
 
     private void initImageLoaderConfig(){
@@ -33,7 +39,15 @@ public class BaseApplication extends Application{
         config.diskCacheFileNameGenerator(new HashCodeFileNameGenerator());
         config.diskCacheSize(GlobalConfig.maxDiskCacheSize);
         config.tasksProcessingOrder(QueueProcessingType.LIFO);
+        config.writeDebugLogs();
 
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+//                .showImageOnLoading(ColorUtils.getRandomColor())
+                .build();
+
+        config.defaultDisplayImageOptions(options);
         ImageLoader.getInstance().init(config.build());
     }
 }

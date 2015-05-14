@@ -12,9 +12,9 @@ import android.widget.TextView;
 import java.util.HashMap;
 
 import us.wili.qtwallpaper.R;
-import us.wili.qtwallpaper.fragment.Category;
-import us.wili.qtwallpaper.fragment.Hot;
-import us.wili.qtwallpaper.fragment.Personal;
+import us.wili.qtwallpaper.fragment.CategoryFragment;
+import us.wili.qtwallpaper.fragment.HotFragment;
+import us.wili.qtwallpaper.fragment.PersonalFragment;
 
 
 public class MainActivity extends FragmentActivity implements RadioGroup.OnCheckedChangeListener{
@@ -40,9 +40,9 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
         menuGroup = (RadioGroup)findViewById(R.id.tab_group);
         fragmentContentId = R.id.content;
 
-        fragments.put(HOT_PAGE,new Hot());
-        fragments.put(CATEGORY_PAGE,new Category());
-        fragments.put(PERSONAL_PAGE,new Personal());
+        fragments.put(HOT_PAGE,new HotFragment());
+        fragments.put(CATEGORY_PAGE,new CategoryFragment());
+        fragments.put(PERSONAL_PAGE,new PersonalFragment());
         FragmentTransaction ft = MainActivity.this.getSupportFragmentManager().beginTransaction();
         ft.add(fragmentContentId, fragments.get(HOT_PAGE));
         currentTab = HOT_PAGE;
