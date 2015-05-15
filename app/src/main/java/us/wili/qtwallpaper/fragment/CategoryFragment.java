@@ -18,6 +18,7 @@ import java.util.HashMap;
 import us.wili.qtwallpaper.R;
 import us.wili.qtwallpaper.adapter.CategoryListAdapter;
 import us.wili.qtwallpaper.object.Category;
+import us.wili.qtwallpaper.utils.ColorUtils;
 import us.wili.qtwallpaper.utils.ConnectUtils;
 import us.wili.qtwallpaper.utils.JsonUtils;
 
@@ -39,11 +40,11 @@ public class CategoryFragment extends BaseFragment implements SwipeRefreshLayout
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
+        refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
         categoryList = (ListView) view.findViewById(R.id.list_view);
 
-//        ColorUtils.setRefreshLayoutColor(refreshLayout, this.getActivity());
-//        refreshLayout.setOnRefreshListener(this);
+        ColorUtils.setRefreshLayoutColor(refreshLayout, this.getActivity());
+        refreshLayout.setOnRefreshListener(this);
 
         listAdapter = new CategoryListAdapter(this.getActivity(), R.layout.category_list_item);
         categoryList.setAdapter(listAdapter);
@@ -58,7 +59,7 @@ public class CategoryFragment extends BaseFragment implements SwipeRefreshLayout
                 super.handleMessage(msg);
                 listAdapter.clear();
                 listAdapter.addAll((ArrayList<HashMap<String, String>>)msg.obj);
-//                refreshLayout.setRefreshing(false);
+                refreshLayout.setRefreshing(false);
             }
         };
     }
