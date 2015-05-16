@@ -3,6 +3,7 @@ package us.wili.qtwallpaper.utils;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v4.widget.SwipeRefreshLayout;
 
 import java.util.Random;
@@ -22,7 +23,7 @@ public class ColorUtils {
                 resources.getColor(android.R.color.holo_red_light));
     }
 
-    public static int getRandomColor(){
-        return Color.parseColor(colors[random.nextInt(8)]);
+    public static ColorDrawable getRandomColor(){
+        return new ColorDrawable(Color.parseColor(colors[random.nextInt(8)]));
     }
 }
