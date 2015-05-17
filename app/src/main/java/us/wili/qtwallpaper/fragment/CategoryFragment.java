@@ -2,25 +2,24 @@ package us.wili.qtwallpaper.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import com.loopj.android.http.RequestParams;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 
 import us.wili.qtwallpaper.R;
 import us.wili.qtwallpaper.adapter.CategoryListAdapter;
-import us.wili.qtwallpaper.object.Category;
+import us.wili.qtwallpaper.apiResult.CategoryResult;
+import us.wili.qtwallpaper.connect.GenericResultHandler;
+import us.wili.qtwallpaper.connect.QTApi;
 import us.wili.qtwallpaper.utils.ColorUtils;
-import us.wili.qtwallpaper.utils.ConnectUtils;
-import us.wili.qtwallpaper.utils.JsonUtils;
 
 /**
  * Created by qiu on 5/3/15.
@@ -48,6 +47,9 @@ public class CategoryFragment extends BaseFragment implements SwipeRefreshLayout
 
         listAdapter = new CategoryListAdapter(this.getActivity(), R.layout.category_list_item);
         categoryList.setAdapter(listAdapter);
+
+        categoryList.setOnScrollListener(new PauseOnScrollListener(ImageLoader.getInstance(), true, false));
+
         initRefreshHandler();
         refreshCategoryList();
     }
@@ -58,36 +60,78 @@ public class CategoryFragment extends BaseFragment implements SwipeRefreshLayout
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 listAdapter.clear();
-                listAdapter.addAll((ArrayList<HashMap<String, String>>)msg.obj);
                 refreshLayout.setRefreshing(false);
             }
         };
     }
 
+//    private void refreshCategoryList(){
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                Looper.prepare();
+//                String categoryResult = ConnectUtils.loadCategory();
+//                LogUtils.printLogE("result : "+categoryResult);
+//                if(!TextUtils.isEmpty(categoryResult)){
+//                    ArrayList<Category> catList = JsonUtils
+//                            .parseCategoryList(categoryResult);
+//                    ArrayList<HashMap<String, String>> imgUrlList = new ArrayList<HashMap<String, String>>();
+//                    for(int i=0;i<catList.size();++i){
+//                        HashMap<String, String> map=new HashMap<String, String>();
+//                        map.put("url", catList.get(i).cover);
+//                        map.put("name", catList.get(i).name);
+//                        map.put("screen_name", catList.get(i).screen_name);
+//                        imgUrlList.add(map);
+//                    }
+//                    Message message = new Message();
+//                    message.obj = imgUrlList;
+//                    refreshHandler.sendMessage(message);
+//                }
+//                Looper.loop();
+//            }
+//        }).start();
+//    }
+
     private void refreshCategoryList(){
-        new Thread(new Runnable() {
+        QTApi.getData(QTApi.CATEGORY, new RequestParams(), new GenericResultHandler<CategoryResult>(this.getActivity(), CategoryResult.class) {
+
             @Override
-            public void run() {
-                Looper.prepare();
-                String categoryResult = ConnectUtils.loadCategory();
-                if(!TextUtils.isEmpty(categoryResult)){
-                    ArrayList<Category> catList = JsonUtils
-                            .parseCategoryList(categoryResult);
-                    ArrayList<HashMap<String, String>> imgUrlList = new ArrayList<HashMap<String, String>>();
-                    for(int i=0;i<catList.size();++i){
-                        HashMap<String, String> map=new HashMap<String, String>();
-                        map.put("url", catList.get(i).cover);
-                        map.put("name", catList.get(i).name);
-                        map.put("screen_name", catList.get(i).screen_name);
-                        imgUrlList.add(map);
-                    }
-                    Message message = new Message();
-                    message.obj = imgUrlList;
-                    refreshHandler.sendMessage(message);
-                }
-                Looper.loop();
+            public void onSuccess(CategoryResult genericResult) {
+                super.onSuccess(genericResult);
+                listAdapter.clear();
+                listAdapter.addAll(genericResult.getCategorys());
             }
-        }).start();
+
+            @Override
+            protected void onComplete() {
+                super.onComplete();
+                refreshLayout.setRefreshing(false);
+            }
+        });
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                Looper.prepare();
+//                String categoryResult = ConnectUtils.loadCategory();
+//                LogUtils.printLogE("result : "+categoryResult);
+//                if(!TextUtils.isEmpty(categoryResult)){
+//                    ArrayList<Category> catList = JsonUtils
+//                            .parseCategoryList(categoryResult);
+//                    ArrayList<HashMap<String, String>> imgUrlList = new ArrayList<HashMap<String, String>>();
+//                    for(int i=0;i<catList.size();++i){
+//                        HashMap<String, String> map=new HashMap<String, String>();
+//                        map.put("url", catList.get(i).cover);
+//                        map.put("name", catList.get(i).name);
+//                        map.put("screen_name", catList.get(i).screen_name);
+//                        imgUrlList.add(map);
+//                    }
+//                    Message message = new Message();
+//                    message.obj = imgUrlList;
+//                    refreshHandler.sendMessage(message);
+//                }
+//                Looper.loop();
+//            }
+//        }).start();
     }
 
     @Override

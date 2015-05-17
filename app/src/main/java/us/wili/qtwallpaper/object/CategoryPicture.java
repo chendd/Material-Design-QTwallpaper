@@ -3,17 +3,9 @@ package us.wili.qtwallpaper.object;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by qiu on 5/12/15.
+ * Created by qiu on 5/18/15.
  */
-public class Picture {
-    @SerializedName("id")
-    private Integer id ;
-
-    @SerializedName("star")
-    private Integer star;
-
-    @SerializedName("like")
-    private String like;
+public class CategoryPicture {
 
     @SerializedName("name")
     private String name;
@@ -23,30 +15,6 @@ public class Picture {
 
     @SerializedName("screen_name")
     private String screenName;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getStar() {
-        return star;
-    }
-
-    public void setStar(Integer star) {
-        this.star = star;
-    }
-
-    public String getLike() {
-        return like;
-    }
-
-    public void setLike(String like) {
-        this.like = like;
-    }
 
     public String getName() {
         return name;
