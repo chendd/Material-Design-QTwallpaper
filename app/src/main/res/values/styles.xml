@@ -16,7 +16,5 @@
         <item name="android:windowIsFloating">true</item>
     </style>
 
-    <!--ActionBar字体主题-->
-
 
 </resources>

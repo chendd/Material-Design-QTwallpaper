@@ -15,6 +15,7 @@ import us.wili.qtwallpaper.R;
 import us.wili.qtwallpaper.fragment.CategoryFragment;
 import us.wili.qtwallpaper.fragment.HotFragment;
 import us.wili.qtwallpaper.fragment.PersonalFragment;
+import us.wili.qtwallpaper.utils.UIUtils;
 
 
 public class MainActivity extends FragmentActivity implements RadioGroup.OnCheckedChangeListener{
@@ -32,17 +33,19 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        UIUtils.setImmersiveActivity(getWindow().getDecorView());
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(R.layout.my_action_bar);
-        titleText = (TextView)actionBar.getCustomView().findViewById(R.id.title_text);
+        titleText = (TextView)actionBar.getCustomView();
+
+        setContentView(R.layout.activity_main);
         menuGroup = (RadioGroup)findViewById(R.id.tab_group);
         fragmentContentId = R.id.content;
 
-        fragments.put(HOT_PAGE,new HotFragment());
-        fragments.put(CATEGORY_PAGE,new CategoryFragment());
-        fragments.put(PERSONAL_PAGE,new PersonalFragment());
+        fragments.put(HOT_PAGE, new HotFragment());
+        fragments.put(CATEGORY_PAGE, new CategoryFragment());
+        fragments.put(PERSONAL_PAGE, new PersonalFragment());
         FragmentTransaction ft = MainActivity.this.getSupportFragmentManager().beginTransaction();
         ft.add(fragmentContentId, fragments.get(HOT_PAGE));
         currentTab = HOT_PAGE;
