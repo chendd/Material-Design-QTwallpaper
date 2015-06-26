@@ -28,16 +28,10 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
     private boolean isExit = false;
 
     private RadioGroup menuGroup;
-    private TextView titleText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        UIUtils.setImmersiveActivity(getWindow().getDecorView());
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        actionBar.setCustomView(R.layout.my_action_bar);
-        titleText = (TextView)actionBar.getCustomView();
 
         setContentView(R.layout.activity_main);
         menuGroup = (RadioGroup)findViewById(R.id.tab_group);
@@ -54,17 +48,7 @@ public class MainActivity extends FragmentActivity implements RadioGroup.OnCheck
     }
 
     private void showTab(int index){
-        switch (index){
-            case HOT_PAGE:
-                titleText.setText(R.string.hot);
-                break;
-            case CATEGORY_PAGE:
-                titleText.setText(R.string.category);
-                break;
-            case PERSONAL_PAGE:
-                titleText.setText(R.string.personal);
-                break;
-        }
+
         FragmentTransaction ft = MainActivity.this.getSupportFragmentManager().beginTransaction();
         ft.hide(fragments.get(currentTab));
         ft.show(fragments.get(index));
