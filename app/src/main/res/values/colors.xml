@@ -2,7 +2,8 @@
 <resources>
     <color name="common_white">#FFFFFF</color>
     <color name="common_black">#000000</color>
-    <color name="top_blue">#64CED0</color>
+    <color name="top_blue">#00CED0</color>
+    <color name="top_blue_dark">#64CED0</color>
     <color name="bottom_shadow">#88EEEEEE</color>
 
 </resources>
