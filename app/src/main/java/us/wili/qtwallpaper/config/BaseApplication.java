@@ -9,6 +9,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
+import us.wili.qtwallpaper.utils.ColorUtils;
 import us.wili.qtwallpaper.utils.FileUtils;
 
 /**
@@ -44,7 +45,7 @@ public class BaseApplication extends Application{
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
-//                .showImageOnLoading(ColorUtils.getRandomColor())
+                .showImageOnLoading(ColorUtils.getRandomColor())
                 .build();
 
         config.defaultDisplayImageOptions(options);

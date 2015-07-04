@@ -5,17 +5,16 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.loopj.android.http.RequestParams;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 
 import us.wili.qtwallpaper.R;
-import us.wili.qtwallpaper.adapter.CategoryListAdapter;
+import us.wili.qtwallpaper.adapter.CategoryRecyclerAdapter;
 import us.wili.qtwallpaper.apiResult.CategoryResult;
 import us.wili.qtwallpaper.connect.GenericResultHandler;
 import us.wili.qtwallpaper.connect.QTApi;
@@ -26,8 +25,8 @@ import us.wili.qtwallpaper.utils.ColorUtils;
  */
 public class CategoryFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
     private SwipeRefreshLayout refreshLayout;
-    private ListView categoryList;
-    private CategoryListAdapter listAdapter;
+    private RecyclerView categoryList;
+    private CategoryRecyclerAdapter listAdapter;
 
     private Handler refreshHandler;
 
@@ -40,15 +39,15 @@ public class CategoryFragment extends BaseFragment implements SwipeRefreshLayout
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
-        categoryList = (ListView) view.findViewById(R.id.list_view);
+        categoryList = (RecyclerView) refreshLayout.findViewById(R.id.recycler_view);
+        categoryList.setHasFixedSize(true);
+        categoryList.setLayoutManager(new LinearLayoutManager(this.getActivity()));
 
         ColorUtils.setRefreshLayoutColor(refreshLayout, this.getActivity());
         refreshLayout.setOnRefreshListener(this);
 
-        listAdapter = new CategoryListAdapter(this.getActivity(), R.layout.category_list_item);
+        listAdapter = new CategoryRecyclerAdapter();
         categoryList.setAdapter(listAdapter);
-
-        categoryList.setOnScrollListener(new PauseOnScrollListener(ImageLoader.getInstance(), true, false));
 
         initRefreshHandler();
         refreshCategoryList();

@@ -4,8 +4,8 @@
     android:id="@+id/refresh_layout"
     android:layout_height="match_parent">
 
-    <ListView
-        android:id="@+id/list_view"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:divider="@color/common_white"
         android:dividerHeight="0dp"
         android:layout_width="fill_parent"
