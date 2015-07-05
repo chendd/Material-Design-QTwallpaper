@@ -7,10 +7,9 @@
         android:name=".config.BaseApplication"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/MainTheme" >
         <activity
             android:name=".activity.MainActivity"
-            android:theme="@style/MainActivityTheme"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
