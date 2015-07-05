@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -25,8 +26,6 @@ public class MainActivity extends AppCompatActivity {
     private HashMap<Integer,Fragment> fragments = new HashMap<>();
     private HashMap<Integer,String> fragmentsTitles = new HashMap<>();
 
-    private Toolbar toolbar;
-    private AppBarLayout appbar;
     private ViewPager viewpager;
     private TabLayout tabs;
 
@@ -37,9 +36,9 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        initialize();
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
-        setSupportActionBar(toolbar);
+        initialize();
 
         viewpager.setAdapter(new MainAdapter(getSupportFragmentManager()));
         tabs.setupWithViewPager(viewpager);
@@ -47,8 +46,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void initialize() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        appbar = (AppBarLayout) findViewById(R.id.appbar);
         viewpager = (ViewPager) findViewById(R.id.viewpager);
         tabs = (TabLayout) findViewById(R.id.tabs);
     }
