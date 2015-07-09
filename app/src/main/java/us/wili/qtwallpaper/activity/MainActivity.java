@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 
 import java.util.HashMap;
 
@@ -19,7 +20,7 @@ import us.wili.qtwallpaper.fragment.HotFragment;
 import us.wili.qtwallpaper.fragment.PersonalFragment;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener{
     public static final int HOT_PAGE = 0;
     public static final int CATEGORY_PAGE = 1;
     public static final int PERSONAL_PAGE = 2;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewPager viewpager;
     private TabLayout tabs;
+    private TextView title;
 
 
     @Override
@@ -36,18 +38,34 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-
         initialize();
 
         viewpager.setAdapter(new MainAdapter(getSupportFragmentManager()));
         tabs.setupWithViewPager(viewpager);
+        tabs.setOnTabSelectedListener(this);
+        title.setText(R.string.hot);
     }
 
 
     private void initialize() {
         viewpager = (ViewPager) findViewById(R.id.viewpager);
         tabs = (TabLayout) findViewById(R.id.tabs);
+        title = (TextView) findViewById(R.id.title);
+    }
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        title.setText(fragmentsTitles.get(tab.getPosition()));
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+
     }
 
     private class MainAdapter extends FragmentPagerAdapter {
