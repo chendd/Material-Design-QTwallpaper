@@ -1,8 +1,6 @@
 package us.wili.qtwallpaper.fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,12 +9,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.loopj.android.http.RequestParams;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
 
 import us.wili.qtwallpaper.R;
 import us.wili.qtwallpaper.adapter.CategoryRecyclerAdapter;
 import us.wili.qtwallpaper.apiResult.CategoryResult;
-import us.wili.qtwallpaper.connect.GenericResultHandler;
+import us.wili.qtwallpaper.connect.GsonRequest;
 import us.wili.qtwallpaper.connect.QTApi;
 import us.wili.qtwallpaper.utils.ColorUtils;
 
@@ -28,7 +30,8 @@ public class CategoryFragment extends BaseFragment implements SwipeRefreshLayout
     private RecyclerView categoryList;
     private CategoryRecyclerAdapter listAdapter;
 
-    private Handler refreshHandler;
+    private RequestQueue requestQueue;
+    private GsonRequest<CategoryResult> categoryRequest;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -49,88 +52,27 @@ public class CategoryFragment extends BaseFragment implements SwipeRefreshLayout
         listAdapter = new CategoryRecyclerAdapter();
         categoryList.setAdapter(listAdapter);
 
-        initRefreshHandler();
-        refreshCategoryList();
-    }
-
-    private void initRefreshHandler(){
-        refreshHandler = new Handler(){
+        requestQueue = Volley.newRequestQueue(this.getActivity());
+        categoryRequest = new GsonRequest<>(CategoryResult.class, new Response.Listener<CategoryResult>() {
             @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
+            public void onResponse(CategoryResult response) {
                 listAdapter.clear();
+                listAdapter.addAll(response.getCategorys());
                 refreshLayout.setRefreshing(false);
             }
-        };
-    }
-
-//    private void refreshCategoryList(){
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                Looper.prepare();
-//                String categoryResult = ConnectUtils.loadCategory();
-//                LogUtils.printLogE("result : "+categoryResult);
-//                if(!TextUtils.isEmpty(categoryResult)){
-//                    ArrayList<Category> catList = JsonUtils
-//                            .parseCategoryList(categoryResult);
-//                    ArrayList<HashMap<String, String>> imgUrlList = new ArrayList<HashMap<String, String>>();
-//                    for(int i=0;i<catList.size();++i){
-//                        HashMap<String, String> map=new HashMap<String, String>();
-//                        map.put("url", catList.get(i).cover);
-//                        map.put("name", catList.get(i).name);
-//                        map.put("screen_name", catList.get(i).screen_name);
-//                        imgUrlList.add(map);
-//                    }
-//                    Message message = new Message();
-//                    message.obj = imgUrlList;
-//                    refreshHandler.sendMessage(message);
-//                }
-//                Looper.loop();
-//            }
-//        }).start();
-//    }
-
-    private void refreshCategoryList(){
-        QTApi.getData(QTApi.CATEGORY, new RequestParams(), new GenericResultHandler<CategoryResult>(this.getActivity(), CategoryResult.class) {
-
+        }, Request.Method.GET, QTApi.CATEGORY, new Response.ErrorListener() {
             @Override
-            public void onSuccess(CategoryResult genericResult) {
-                super.onSuccess(genericResult);
-                listAdapter.clear();
-                listAdapter.addAll(genericResult.getCategorys());
-            }
-
-            @Override
-            protected void onComplete() {
-                super.onComplete();
+            public void onErrorResponse(VolleyError error) {
                 refreshLayout.setRefreshing(false);
             }
         });
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                Looper.prepare();
-//                String categoryResult = ConnectUtils.loadCategory();
-//                LogUtils.printLogE("result : "+categoryResult);
-//                if(!TextUtils.isEmpty(categoryResult)){
-//                    ArrayList<Category> catList = JsonUtils
-//                            .parseCategoryList(categoryResult);
-//                    ArrayList<HashMap<String, String>> imgUrlList = new ArrayList<HashMap<String, String>>();
-//                    for(int i=0;i<catList.size();++i){
-//                        HashMap<String, String> map=new HashMap<String, String>();
-//                        map.put("url", catList.get(i).cover);
-//                        map.put("name", catList.get(i).name);
-//                        map.put("screen_name", catList.get(i).screen_name);
-//                        imgUrlList.add(map);
-//                    }
-//                    Message message = new Message();
-//                    message.obj = imgUrlList;
-//                    refreshHandler.sendMessage(message);
-//                }
-//                Looper.loop();
-//            }
-//        }).start();
+
+        refreshLayout.setRefreshing(true);
+        refreshCategoryList();
+    }
+
+    private void refreshCategoryList(){
+        requestQueue.add(categoryRequest);
     }
 
     @Override

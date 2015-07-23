@@ -1,7 +1,5 @@
 package us.wili.qtwallpaper.connect;
 
-import com.loopj.android.http.RequestParams;
-
 /**
  * Created by qiu on 5/18/15.
  */
@@ -15,13 +13,4 @@ public class QTApi {
     public static final String SET_STAR = BASE_URL + "/event/";
     public static final String POST_USERINFO = BASE_URL + "/userinfo/";
 
-    private static com.loopj.android.http.AsyncHttpClient client = new com.loopj.android.http.AsyncHttpClient();
-
-    public static void getData(String url, RequestParams params, GenericResultHandler handler){
-        client.get(url, params, handler);
-    }
-
-    public static void postData(String url, RequestParams params, GenericResultHandler handler){
-        client.post(url, params, handler);
-    }
 }
