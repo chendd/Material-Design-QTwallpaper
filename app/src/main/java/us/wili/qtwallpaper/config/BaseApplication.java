@@ -23,32 +23,10 @@ public class BaseApplication extends Application{
 
         new FileUtils(this);
 
-        initImageLoaderConfig();
-
         DisplayMetrics dm = this.getResources().getDisplayMetrics();
         GlobalConfig.screenWidth = dm.widthPixels;
         GlobalConfig.screenHeight = dm.heightPixels;
     }
 
-    private void initImageLoaderConfig(){
-        ImageLoaderConfiguration.Builder config = new ImageLoaderConfiguration.Builder(this);
-        config.threadPriority(Thread.NORM_PRIORITY - 2);
-        config.threadPoolSize(ImageLoaderConfiguration.Builder.DEFAULT_THREAD_POOL_SIZE);
-        //default memory cache is LruMemoryCache
-        config.memoryCacheSize(GlobalConfig.maxMemoryCacheSize);
-        //default disk cache is UnlimitedDiscCache
-        config.diskCacheFileNameGenerator(new HashCodeFileNameGenerator());
-        config.diskCacheSize(GlobalConfig.maxDiskCacheSize);
-        config.tasksProcessingOrder(QueueProcessingType.LIFO);
-        config.writeDebugLogs();
 
-        DisplayImageOptions options = new DisplayImageOptions.Builder()
-                .cacheInMemory(true)
-                .cacheOnDisk(true)
-                .showImageOnLoading(ColorUtils.getRandomColor())
-                .build();
-
-        config.defaultDisplayImageOptions(options);
-        ImageLoader.getInstance().init(config.build());
-    }
 }

@@ -10,14 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
 
 import us.wili.qtwallpaper.R;
 import us.wili.qtwallpaper.adapter.CategoryRecyclerAdapter;
 import us.wili.qtwallpaper.apiResult.CategoryResult;
+import us.wili.qtwallpaper.config.MySingleton;
 import us.wili.qtwallpaper.connect.GsonRequest;
 import us.wili.qtwallpaper.connect.QTApi;
 import us.wili.qtwallpaper.utils.ColorUtils;
@@ -30,7 +29,6 @@ public class CategoryFragment extends BaseFragment implements SwipeRefreshLayout
     private RecyclerView categoryList;
     private CategoryRecyclerAdapter listAdapter;
 
-    private RequestQueue requestQueue;
     private GsonRequest<CategoryResult> categoryRequest;
 
     @Override
@@ -49,18 +47,17 @@ public class CategoryFragment extends BaseFragment implements SwipeRefreshLayout
         ColorUtils.setRefreshLayoutColor(refreshLayout, this.getActivity());
         refreshLayout.setOnRefreshListener(this);
 
-        listAdapter = new CategoryRecyclerAdapter();
+        listAdapter = new CategoryRecyclerAdapter(this.getActivity());
         categoryList.setAdapter(listAdapter);
 
-        requestQueue = Volley.newRequestQueue(this.getActivity());
-        categoryRequest = new GsonRequest<>(CategoryResult.class, new Response.Listener<CategoryResult>() {
+        categoryRequest = new GsonRequest<>(Request.Method.GET, QTApi.CATEGORY, CategoryResult.class, new Response.Listener<CategoryResult>() {
             @Override
             public void onResponse(CategoryResult response) {
                 listAdapter.clear();
                 listAdapter.addAll(response.getCategorys());
                 refreshLayout.setRefreshing(false);
             }
-        }, Request.Method.GET, QTApi.CATEGORY, new Response.ErrorListener() {
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 refreshLayout.setRefreshing(false);
@@ -72,7 +69,7 @@ public class CategoryFragment extends BaseFragment implements SwipeRefreshLayout
     }
 
     private void refreshCategoryList(){
-        requestQueue.add(categoryRequest);
+        MySingleton.getInstance(this.getActivity()).addToRequestQueue(categoryRequest);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package us.wili.qtwallpaper.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import java.util.List;
 
 import us.wili.qtwallpaper.R;
 import us.wili.qtwallpaper.config.GlobalConfig;
+import us.wili.qtwallpaper.config.MySingleton;
 import us.wili.qtwallpaper.object.CategoryPicture;
 
 /**
@@ -24,8 +26,8 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecycl
     private AbsListView.LayoutParams imgParams;
     private ImageLoader imageLoader;
 
-    public CategoryRecyclerAdapter(){
-        imageLoader = ImageLoader.getInstance();
+    public CategoryRecyclerAdapter(Context context){
+        imageLoader = MySingleton.getInstance(context).getImageLoader();
         int height = (int)((float)(GlobalConfig.screenWidth)/(float)GlobalConfig.categoryMaskWidth * GlobalConfig.categoryMaskHeight);
         imgParams = new AbsListView.LayoutParams(GlobalConfig.screenWidth, height);
     }

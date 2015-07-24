@@ -16,15 +16,13 @@ import us.wili.qtwallpaper.utils.LogUtils;
  * Created by qiu on 7/22/15.
  */
 public class GsonRequest<T> extends Request<T>{
-    private Gson mGson;
+    private final Gson gson = new Gson();
+    private final Class<T> mClass;
+    private final Response.Listener<T> mListener;
 
-    private Class<T> mClass;
-    private Response.Listener<T> mListener;
-
-    public GsonRequest(Class<T> tClass, Response.Listener<T> tListener,
-                       int method, String url, Response.ErrorListener listener) {
+    public GsonRequest(int method, String url, Class<T> tClass, Response.Listener<T> tListener,
+                       Response.ErrorListener listener) {
         super(method, url, listener);
-        mGson = new Gson();
         mClass = tClass;
         mListener = tListener;
     }
