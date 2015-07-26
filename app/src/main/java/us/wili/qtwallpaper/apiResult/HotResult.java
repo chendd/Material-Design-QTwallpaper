@@ -4,18 +4,18 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import us.wili.qtwallpaper.object.CategoryPicture;
+import us.wili.qtwallpaper.object.HotPicture;
 
 /**
  * Created by qiu on 5/17/15.
  */
-public class CategoryResult {
+public class HotResult {
 
     @SerializedName("count")
     private Integer count;
 
-    @SerializedName("category")
-    private List<CategoryPicture> categorys;
+    @SerializedName("picture")
+    private List<HotPicture> hotPictures;
 
     public Integer getCount() {
         return count;
@@ -25,11 +25,11 @@ public class CategoryResult {
         this.count = count;
     }
 
-    public List<CategoryPicture> getCategorys() {
-        return categorys;
+    public List<HotPicture> getHotPictures() {
+        return hotPictures;
     }
 
-    public void setCategorys(List<CategoryPicture> categorys) {
-        this.categorys = categorys;
+    public void setHotPictures(List<HotPicture> hotPictures) {
+        this.hotPictures = hotPictures;
     }
 }

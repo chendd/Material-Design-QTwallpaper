@@ -13,31 +13,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 import us.wili.qtwallpaper.R;
+import us.wili.qtwallpaper.apiResult.HotResult;
 import us.wili.qtwallpaper.config.GlobalConfig;
 import us.wili.qtwallpaper.config.MySingleton;
 import us.wili.qtwallpaper.connect.QTApi;
 import us.wili.qtwallpaper.object.CategoryPicture;
+import us.wili.qtwallpaper.object.HotPicture;
 
 /**
  * Created by qiu on 7/4/15.
  */
-public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecyclerAdapter.CategoryViewHolder>{
+public class HotHeaderRecyclerAdapter extends RecyclerView.Adapter<HotHeaderRecyclerAdapter.HotViewHolder>{
 
-    private List<CategoryPicture> pictures = new ArrayList<>();
+    private List<HotPicture> pictures = new ArrayList<>();
     private AbsListView.LayoutParams imgParams;
     private ImageLoader imageLoader;
 
-    public CategoryRecyclerAdapter(Context context){
+    public HotHeaderRecyclerAdapter(Context context){
         imageLoader = MySingleton.getInstance(context).getImageLoader();
         int height = (int)((float)(GlobalConfig.screenWidth)/(float)GlobalConfig.categoryMaskWidth * GlobalConfig.categoryMaskHeight);
         imgParams = new AbsListView.LayoutParams(GlobalConfig.screenWidth, height);
     }
 
-    public void addAll(List<CategoryPicture> pictureList){
-        if (pictureList != null) {
-            this.pictures.addAll(pictureList);
-            this.notifyDataSetChanged();
-        }
+    public void addAll(List<HotPicture> pictureList){
+        this.pictures.addAll(pictureList);
+        this.notifyDataSetChanged();
     }
 
     public void clear(){
@@ -45,26 +45,26 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecycl
         this.notifyDataSetChanged();
     }
 
-    public static class CategoryViewHolder extends RecyclerView.ViewHolder {
+    public static class HotViewHolder extends RecyclerView.ViewHolder {
         public ImageView img;
 
-        public CategoryViewHolder(ImageView imageView) {
+        public HotViewHolder(ImageView imageView) {
             super(imageView);
             img = imageView;
         }
     }
 
     @Override
-    public CategoryViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public HotViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         ImageView imageView = (ImageView) LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.category_list_item, viewGroup, false);
         imageView.setLayoutParams(imgParams);
-        return new CategoryViewHolder(imageView);
+        return new HotViewHolder(imageView);
     }
 
     @Override
-    public void onBindViewHolder(CategoryViewHolder categoryViewHolder, int i) {
-        imageLoader.displayImage(pictures.get(i).getUrl(), categoryViewHolder.img);
+    public void onBindViewHolder(HotViewHolder hotViewHolder, int i) {
+        imageLoader.displayImage(pictures.get(i).getUrl() + QTApi.COMPRESS_20, hotViewHolder.img);
     }
 
     @Override

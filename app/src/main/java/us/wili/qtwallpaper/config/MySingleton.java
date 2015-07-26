@@ -1,5 +1,6 @@
 package us.wili.qtwallpaper.config;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.android.volley.Request;
@@ -34,6 +35,13 @@ public class MySingleton {
     public static synchronized MySingleton getInstance(Context context) {
         if (mInstance == null) {
             mInstance = new MySingleton(context);
+        }
+        return mInstance;
+    }
+
+    public static synchronized MySingleton getInstance(Activity activity) {
+        if (mInstance == null) {
+            mInstance = new MySingleton(activity.getApplicationContext());
         }
         return mInstance;
     }
